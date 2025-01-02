@@ -1,0 +1,10 @@
+# Ignore object files
+*.obj
+
+# Ignore all executables in the bin directory
+/cpp/bin/*.exe
+
+# Ignore temporary or backup files
+*.tmp
+*.log
+*.bak
