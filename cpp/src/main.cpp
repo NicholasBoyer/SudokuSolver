@@ -1,11 +1,51 @@
 // Standard library headers
 #include <array>
 #include <iostream>
+#include <curl/curl.h>
 
 // Custom library headers
 #include "../include/SudokuSolver.hpp"
 
+size_t WriteCallBack(void* contents, size_t size, size_t nmemb, void* userp) {
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
+
+std::string getSudokuBoardFromAPI(const std::string& url) {
+    CURL* curl;
+    CURLcode res;
+    std::string responseString;
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+    if (!curl) {
+        std::cerr << "Failed to initialize CURL." << std::endl;
+        return "";
+    }
+
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallBack);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseString);      
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L); // Set timeout for 10 seconds
+
+        res = curl_easy_perform(curl); 
+        if (res != CURLE_OK) {
+            std::cerr << "libcurl error: " << curl_easy_strerror(res) << std::endl;
+        }
+
+        curl_easy_cleanup(curl);  
+    }
+
+    return responseString;
+}
+
 int main() {
+
+    std::string url = "https://ifconfig.me";
+    std::string apiResponse = getSudokuBoardFromAPI(url);
+    std::cout << apiResponse << std::endl;
+    exit(0);
 
     std::array<std::array<int, 9>, 9> board = {{
         {{5, 3, 0, 0, 7, 0, 0, 0, 0}},

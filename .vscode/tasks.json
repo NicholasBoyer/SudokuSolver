@@ -35,10 +35,17 @@
               "${workspaceFolder}/cpp/src/main.cpp",
               "${workspaceFolder}/cpp/src/SudokuSolver.cpp",
               "-I${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/include",
-              "${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/lib/libcurl.a",
+              "-L${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/lib",
+              "-lcurl",
+              "-lssl",
+              "-lcrypto",
+              "-lz",
+              "-lbrotlicommon",
+              "-lbrotlidec",
               "-lws2_32",
               "-lcrypt32",
-              "-static"
+              "-ldnsapi",
+              "-luserenv"
             ],
             "group": {
               "kind": "build",
