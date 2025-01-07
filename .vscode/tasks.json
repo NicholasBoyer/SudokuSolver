@@ -4,20 +4,46 @@
     "version": "2.0.0",
     "tasks": [
         {
+            // Incompatible with .a libraries (libcurl)
             "label": "Build with MSVC ARM64",
             "type": "shell",
             "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.42.34433/bin/Hostarm64/arm64/cl.exe",
             "args": [
                 "/std:c++17", // compile for C++17
                 "/EHsc", // enable C++ exceptions
-                "/Fe:${fileDirname}\\..\\bin\\${fileBasenameNoExtension}_arm64.exe", // set output filename
+                "/Fe:${workspaceFolder}\\cpp\\bin\\${fileBasenameNoExtension}_arm64.exe", // set output filename
                 "${workspaceFolder}\\cpp\\src\\main.cpp", // source
-                "${workspaceFolder}\\cpp\\src\\SudokuSolver.cpp"
+                "${workspaceFolder}\\cpp\\src\\SudokuSolver.cpp",
+                "/I${workspaceFolder}\\cpp\\libs\\curl-8.11.1_3-win64a-mingw\\include",
+                "/link",
+                "${workspaceFolder}\\cpp\\libs\\curl-8.11.1_3-win64a-mingw\\lib\\libcurl.a"
+
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             }
-        }
+        },
+        {
+            "label": "Build with CLANG/LLVM ARM64",
+            "type": "shell",
+            "command": "C:/msys64/clangarm64/bin/aarch64-w64-mingw32-clang++",
+            "args": [
+              "-v",
+              "-std=c++17",
+              "-o", "${workspaceFolder}/cpp/bin/main_arm64_clang.exe",
+              "${workspaceFolder}/cpp/src/main.cpp",
+              "${workspaceFolder}/cpp/src/SudokuSolver.cpp",
+              "-I${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/include",
+              "${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/lib/libcurl.a",
+              "-lws2_32",
+              "-lcrypt32",
+              "-static"
+            ],
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            }
+          }
     ]
 }

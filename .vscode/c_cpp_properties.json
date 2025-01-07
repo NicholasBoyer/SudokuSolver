@@ -13,7 +13,7 @@
         },
 
         {
-        "name": "ARM64",
+        "name": "ARM64 (MSVC)",
         "includePath": [
             "${workspaceFolder}/**"
         ],
@@ -22,6 +22,22 @@
         "cStandard": "c11",
         "cppStandard": "c++17",
         "intelliSenseMode": "msvc-arm64"
+        },
+
+        {
+        "name": "Clang/LLVM ARM64",
+        "includePath": [
+            "${workspaceFolder}/cpp/src",
+            "${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/include",
+            "C:/msys64/clangarm64/include/c++/v1",
+            "C:/msys64/clangarm64/lib/clang/19/include",
+            "C:/msys64/clangarm64/include"
+        ],
+        "defines": [],
+        "compilerPath": "C:/msys64/clangarm64/bin/aarch64-w64-mingw32-clang++.exe",
+        "cStandard": "c11",
+        "cppStandard": "c++17",
+        "intelliSenseMode": "windows-clang-arm64"
         }
     ],
     "version": 4

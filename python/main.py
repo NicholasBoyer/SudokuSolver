@@ -9,7 +9,7 @@ import json
 USE_API = True
 
 """
-Fetch a sudoku board using the Sugoku API.
+Fetch a sudoku board using the Dosuku API.
 :param difficulty: Board difficulty
 :return: Unsolved Sudoku board
 :raise: API failure
