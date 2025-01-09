@@ -28,6 +28,9 @@ std::string getSudokuBoardFromAPI(const std::string& url) {
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallBack);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseString);      
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L); // Set timeout for 10 seconds
+        curl_easy_setopt(curl, CURLOPT_CAINFO, "../cacert.pem");
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L); 
 
         res = curl_easy_perform(curl); 
         if (res != CURLE_OK) {
@@ -41,12 +44,12 @@ std::string getSudokuBoardFromAPI(const std::string& url) {
 }
 
 int main() {
-
-    std::string url = "https://ifconfig.me";
+/*
+    std::string url = "https://sudoku-api.vercel.app/api/dosuku";
     std::string apiResponse = getSudokuBoardFromAPI(url);
     std::cout << apiResponse << std::endl;
     exit(0);
-
+*/
     std::array<std::array<int, 9>, 9> board = {{
         {{5, 3, 0, 0, 7, 0, 0, 0, 0}},
         {{6, 0, 0, 1, 9, 5, 0, 0, 0}},
