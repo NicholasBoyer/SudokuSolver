@@ -29,6 +29,7 @@
         "includePath": [
             "${workspaceFolder}/cpp/src",
             "${workspaceFolder}/cpp/libs/curl-8.11.1_3-win64a-mingw/include",
+            "${workspaceFolder}/cpp/libs/json-develop/include",
             "C:/msys64/clangarm64/include/c++/v1",
             "C:/msys64/clangarm64/lib/clang/19/include",
             "C:/msys64/clangarm64/include"

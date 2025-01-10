@@ -1,7 +1,10 @@
 // Standard library headers
 #include <array>
 #include <iostream>
+
+// Installed library headers
 #include <curl/curl.h>
+#include <nlohmann/json.hpp>
 
 // Custom library headers
 #include "../include/SudokuSolver.hpp"
