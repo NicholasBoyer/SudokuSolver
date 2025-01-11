@@ -14,7 +14,7 @@ size_t WriteCallBack(void* contents, size_t size, size_t nmemb, void* userp) {
     return size * nmemb;
 }
 
-std::string getSudokuBoardFromAPI(const std::string& url) {
+std::string getSudokuJSON(const std::string& url) {
     CURL* curl;
     CURLcode res;
     std::string responseString;
@@ -46,24 +46,45 @@ std::string getSudokuBoardFromAPI(const std::string& url) {
     return responseString;
 }
 
+std::array<std::array<int, 9>, 9> jsonToArray(std::string jsonString) {
+    nlohmann::json jsonData = nlohmann::json::parse(jsonString);
+    std::array<std::array<int, 9>, 9> array;
+    
+    auto valueArray = jsonData["newboard"]["grids"][0]["value"];
+
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
+            array[row][col] = valueArray[row][col].get<int>();
+        }
+    }
+
+    return array;
+}
+
 int main() {
-/*
+
     std::string url = "https://sudoku-api.vercel.app/api/dosuku";
-    std::string apiResponse = getSudokuBoardFromAPI(url);
-    std::cout << apiResponse << std::endl;
-    exit(0);
-*/
-    std::array<std::array<int, 9>, 9> board = {{
-        {{5, 3, 0, 0, 7, 0, 0, 0, 0}},
-        {{6, 0, 0, 1, 9, 5, 0, 0, 0}},
-        {{0, 9, 8, 0, 0, 0, 0, 6, 0}},
-        {{8, 0, 0, 0, 6, 0, 0, 0, 3}},
-        {{4, 0, 0, 8, 0, 3, 0, 0, 1}},
-        {{7, 0, 0, 0, 2, 0, 0, 0, 6}},
-        {{0, 6, 0, 0, 0, 0, 2, 8, 0}},
-        {{0, 0, 0, 4, 1, 9, 0, 0, 5}},
-        {{0, 0, 0, 0, 8, 0, 0, 7, 9}}
-    }};
+    std::string apiResponse = getSudokuJSON(url);
+    std::array<std::array<int, 9>, 9> board;
+
+    try {
+        board = jsonToArray(apiResponse);
+
+    } catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "Using default board" << std::endl;
+        board = {{
+            {{5, 3, 0, 0, 7, 0, 0, 0, 0}},
+            {{6, 0, 0, 1, 9, 5, 0, 0, 0}},
+            {{0, 9, 8, 0, 0, 0, 0, 6, 0}},
+            {{8, 0, 0, 0, 6, 0, 0, 0, 3}},
+            {{4, 0, 0, 8, 0, 3, 0, 0, 1}},
+            {{7, 0, 0, 0, 2, 0, 0, 0, 6}},
+            {{0, 6, 0, 0, 0, 0, 2, 8, 0}},
+            {{0, 0, 0, 4, 1, 9, 0, 0, 5}},
+            {{0, 0, 0, 0, 8, 0, 0, 7, 9}}
+         }};
+    }
 
     SudokuSolver solver;
     std::cout << "Initial board:\n";
