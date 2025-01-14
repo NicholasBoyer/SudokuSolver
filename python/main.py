@@ -2,11 +2,28 @@
 from solver import SudokuSolver
 
 # Library imports
+import argparse
 import requests
 import json
 
 # Constants
 USE_API = True
+
+# Board type setting from command line arguments
+parser = argparse.ArgumentParser(description="Specify whether to fetch from API or use the hardcoded board")
+board_type = parser.add_argument("-b",
+                                 "--board-type",
+                                 choices=["default", "api"],
+                                 default="default",
+                                 help="Choose a method for instantiating unsolved board.")
+args = parser.parse_args()
+if args.board_type:
+    if args.board_type == "default":
+        print("Using hardcoded board")
+        USE_API = False
+    elif args.board_type == "api":
+        print("Fetching board from API")
+        USE_API = True
 
 """
 Fetch a sudoku board using the Dosuku API.
@@ -44,10 +61,10 @@ else:
 
 # Solve board, print before and after states
 solver = SudokuSolver(board)
-print("\nUnsolved board")
+print("\nInitial puzzle state:")
 solver.display_board()
 if solver.solve():
-    print("\nSolved Puzzle:")
+    print("\nSolved puzzle:")
     solver.display_board()
 else:
     print("No solution exists.")
